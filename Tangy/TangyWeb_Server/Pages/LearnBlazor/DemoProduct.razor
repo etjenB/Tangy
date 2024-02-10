@@ -1,0 +1,61 @@
+﻿@page "/learnblazor/demoproduct"
+
+<h3 class="text-success">DemoProduct</h3>
+<div class="row p-3">
+    @foreach (var p in Products)
+    {
+        <div class="col-6 p-2">
+            <div class="border p-3" style="background-color:azure">
+                <h2 class="text-black-50">Product - @p.Id</h2><hr />
+                Name - @p.Name<br />
+                Show properties: <input type="checkbox" @bind="p.IsActive" /><br />
+                @if (p.IsActive)
+                {
+                    @foreach (var pp in p.ProductProperties)
+                    {
+                        <span>@pp.Key - @pp.Value</span>
+                        <br />
+                    }
+                }
+                <br />
+                <button type="button" class="btn-danger">Delete</button>
+                <button type="button" class="btn-success">Edit</button>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    List<Demo_Product> Products = new();
+
+    protected override void OnInitialized()
+    {
+        Products.Add(new()
+            {
+                Id = 1,
+                Name = "Midnight Blaze",
+                Price = 10.99,
+                IsActive = false,
+                ProductProperties = new()
+                {
+                    new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Rose"},
+                    new Demo_ProductProp { Id = 2, Key = "Size", Value = "20oz"},
+                    new Demo_ProductProp { Id = 3, Key = "Color", Value="Purple" }
+                }
+            });
+
+        Products.Add(new()
+            {
+                Id = 2,
+                Name = "Blossom Lily",
+                Price = 13.99,
+                IsActive = true,
+                ProductProperties = new()
+            {
+                new Demo_ProductProp { Id = 1, Key = "Flavor", Value = "Lily" },
+                new Demo_ProductProp { Id = 2, Key = "Size", Value = "18oz" },
+                new Demo_ProductProp {Id = 3,Key = "Color",Value = "White"}
+            }
+            });
+    }
+}
