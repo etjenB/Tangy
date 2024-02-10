@@ -1,0 +1,10 @@
+﻿@if (IsActive)
+{
+    <button type="button" class="btn-danger">Delete</button>
+    <button type="button" class="btn-success">Edit</button>
+}
+
+@code {
+    [Parameter]
+    public bool IsActive { get; set; }
+}
