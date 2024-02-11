@@ -1,6 +1,8 @@
 ﻿@page "/category"
 @inject ICategoryRepository _categoryRepository
+@inject IJSRuntime _jsRuntime
 
+<_DeleteConfirmation IsParentComponentProcessing="IsLoading" ConfirmationChanged="ConfirmDelete_Click"></_DeleteConfirmation>
 <div class="row mt-4">
     <div class="col-6">
         <h4 class="card-title text-primary">Category List</h4>
@@ -25,6 +27,7 @@
                             <td>@c.Name</td>
                             <td>
                             <NavLink href="@($"category/edit/{c.Id}")" class="btn btn-primary">Edit</NavLink>
+                            <button class="btn btn-danger" @onclick="() => HandleDelete(c.Id)">Delete</button>
                             </td>
                         </tr>
                     }
@@ -49,16 +52,41 @@
 
 @code {
     private IEnumerable<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
-    public bool IsLoading { get; set; } = true;
+    public bool IsLoading { get; set; }
+    private int DeleteCategoryId { get; set; } = 0;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await Task.Run(LoadCategories);
+        if (firstRender)
+        {
+            await LoadCategories();
+        }
     }
 
-    private void LoadCategories()
+    private async Task LoadCategories()
     {
-        Categories = _categoryRepository.GetAll();
+        IsLoading = true;
+        StateHasChanged();
+        Categories = await _categoryRepository.GetAll();
+        IsLoading = false;
+        StateHasChanged();
+    }
+
+    private void HandleDelete(int id)
+    {
+        DeleteCategoryId = id;
+        _jsRuntime.InvokeVoidAsync("ShowDeleteConfirmationModal");
+    }
+
+    public async Task ConfirmDelete_Click(bool isConfirmed)
+    {
+        IsLoading = true;
+        if (isConfirmed && DeleteCategoryId!=0)
+        {
+            await _categoryRepository.Delete(DeleteCategoryId);
+            await LoadCategories();
+            await _jsRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
+        }
         IsLoading = false;
     }
 }
