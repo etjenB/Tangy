@@ -4,11 +4,15 @@
 <h3>BlazorJS</h3>
 
 <div class="row">
-    <button class="btn btn-secondary" @onclick="TestConfirmBox">Test confirm button</button>
+    <button class="btn btn-secondary m-2" style="width:200px;"  @onclick="TestConfirmBox">Test confirm button</button>
 </div>
 <div class="row">
-    <button class="btn btn-success" @onclick="ToastrSuccess">Toastr success</button>
-    <button class="btn btn-danger" @onclick="ToastrError">Toastr error</button>
+    <button class="btn btn-success m-2" style="width:200px;" @onclick="ToastrSuccess">Toastr success</button>
+    <button class="btn btn-danger m-2" style="width:200px;" @onclick="ToastrError">Toastr error</button>
+</div>
+<div class="row">
+    <button class="btn btn-success m-2" style="width:200px;" @onclick="SweetAlertSuccess">SweetAlert success</button>
+    <button class="btn btn-danger m-2" style="width:200px;" @onclick="SweetAlertError">SweetAlert error</button>
 </div>
 
 <div class="row">
@@ -37,5 +41,14 @@
     private async Task ToastrError()
     {
         await _JsRuntime.ToastrError("Greška");
+    }
+
+    private async Task SweetAlertSuccess()
+    {
+        await _JsRuntime.InvokeVoidAsync("ShowSwal", "success", "Uspješno izvršena akcija");
+    }
+    private async Task SweetAlertError()
+    {
+        await _JsRuntime.InvokeVoidAsync("ShowSwal", "error", "Neuspješno izvršena akcija");
     }
 }

@@ -4,7 +4,7 @@
 
 <CascadingValue Value="@MessageForGrandChild" Name="message">
     <CascadingValue Value="@LuckyNumber" Name="luckyNumber">
-        <_ChildComponent OnButtonClick="ShowMessage" Title="This title is passed as parameter from Parent Component">
+        <_ChildComponent @ref="childComp" OnButtonClick="ShowMessage" Title="This title is passed as parameter from Parent Component">
             @* Render Fragment From Parent! WooHOO! *@
             @*If you want to be specific about which Render Fragment is which content use tags: *@
             <ChildContent>Render Fragment From Parent! WooHOO!</ChildContent> 
@@ -16,10 +16,16 @@
 <p><b>@messageText</b></p>
 <_AnotherChildComponent placeholder="E alo bidibao" maxlength="50" required="required"></_AnotherChildComponent>
 
+<div class="row">
+    <button class="btn btn-success" @onclick="()=>childComp.ToastrSuccess()">Show sweet alert</button>
+</div>
+
 @* <_ChildComponent Title="This is second child component">
 </_ChildComponent> *@
 
 @code {
+    private _ChildComponent childComp { get; set; }
+
     public string MessageForGrandChild = "This message is from your grandparent(ParentComponent)";
     public string LuckyNumber = "5";
     public string messageText = "";

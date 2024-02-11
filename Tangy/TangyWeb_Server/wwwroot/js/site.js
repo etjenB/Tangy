@@ -6,3 +6,20 @@
         toastr.error(message, 'Neuspješna akcija', { timeOut: 5000 });
     }
 }
+
+window.ShowSwal = (type, message) => {
+    if (type === "success") {
+        Swal.fire({
+            title: "Uspjeh!",
+            text: message,
+            icon: "success"
+        });
+    }
+    if (type === "error") {
+        Swal.fire({
+            title: "Greška!",
+            text: message,
+            icon: "error"
+        });
+    }
+}
