@@ -1,0 +1,41 @@
+﻿@page "/learnblazor/blazorjs"
+@inject IJSRuntime _JsRuntime
+
+<h3>BlazorJS</h3>
+
+<div class="row">
+    <button class="btn btn-secondary" @onclick="TestConfirmBox">Test confirm button</button>
+</div>
+<div class="row">
+    <button class="btn btn-success" @onclick="ToastrSuccess">Toastr success</button>
+    <button class="btn btn-danger" @onclick="ToastrError">Toastr error</button>
+</div>
+
+<div class="row">
+    @if (ConfirmResult)
+    {
+        <p>Confirmation has been made</p>
+    }
+    else
+    {
+        <p>Confirmation pending</p>
+    }
+</div>
+
+@code {
+    private string ConfirmMessage = "Jeste li sigurni da želite kliknuti?";
+    private bool ConfirmResult{ get; set; }
+
+    private async Task TestConfirmBox()
+    {
+        ConfirmResult = await _JsRuntime.InvokeAsync<bool>("confirm", ConfirmMessage);
+    }
+    private async Task ToastrSuccess()
+    {
+        await _JsRuntime.ToastrSucces("Uspjeh");
+    }
+    private async Task ToastrError()
+    {
+        await _JsRuntime.ToastrError("Greška");
+    }
+}
