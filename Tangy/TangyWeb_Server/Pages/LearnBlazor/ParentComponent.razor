@@ -10,19 +10,12 @@
 </_ChildComponent>
 
 <p><b>@messageText</b></p>
-<_AnotherChildComponent InputAttributes="@InputAttributesParent"></_AnotherChildComponent>
+<_AnotherChildComponent placeholder="E alo bidibao" maxlength="50" required="required"></_AnotherChildComponent>
 
 @* <_ChildComponent Title="This is second child component">
 </_ChildComponent> *@
 
 @code {
-    public Dictionary<string, object> InputAttributesParent { get; set; } = new Dictionary<string, object>()
-    {
-        {"required", "required"},
-        {"placeholder",  "E alo bidibao"},
-        {"maxlength", 50}
-    };
-
     public string messageText = "";
 
     private void ShowMessage()

@@ -1,14 +1,11 @@
 ﻿<div>
     <h4 class="text-primary pt-3">Another Child Component</h4>
     <input id="nametemp" @attributes="InputAttributes">
+    @* if you do it like this child placeholder will override parent placeholder: <input id="nametemp" @attributes="InputAttributes" placeholder="child placeholder"> *@
+    @*if you do it like this child placeholder will NOT override parent placeholder:  <input id="nametemp" placeholder="child placeholder" @attributes="InputAttributes"> *@
 </div>
 
 @code {
-    [Parameter]
-    public Dictionary<string, object> InputAttributes { get; set;  } = new Dictionary<string, object>()
-    {
-        {"required", "required"},
-        {"placeholder",  "..."},
-        {"maxlength", 5}
-    };
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> InputAttributes { get; set;  } = new Dictionary<string, object>();
 }
