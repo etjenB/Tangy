@@ -36,7 +36,7 @@ namespace TangyWeb_Server.Service
             await using FileStream fs = new FileStream(filePath, FileMode.Create);
             await file.OpenReadStream().CopyToAsync(fs);
 
-            var fullPath = $"/images/product/{fileName}";
+            var fullPath = $"/image/product/{fileName}";
             return fullPath;
         }
     }
